@@ -8,6 +8,7 @@ import java.util.Random;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.strategy.Strategy;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -21,6 +22,16 @@ public abstract class Ghost extends NPC {
 	 * The sprite map, one sprite for each direction.
 	 */
 	private Map<Direction, Sprite> sprites;
+	
+	/**
+	 * The actual strategy that will be change during the game.
+	 */
+	protected Strategy strategy;
+	
+	/**
+	 * Determine if the ghost is at home
+	 */
+	private boolean isHome;
 
 	/**
 	 * Creates a new ghost.
@@ -36,6 +47,18 @@ public abstract class Ghost extends NPC {
 	public Sprite getSprite() {
 		return sprites.get(getDirection());
 	}
+	
+	public void setStrategy(Strategy strategy) {
+		this.strategy = strategy;
+	}
+	
+	public void setIsHome(boolean isHome) {
+		this.isHome = isHome;
+	}
+	
+	public boolean isHome() {
+		return this.isHome;
+	}
 
 	/**
 	 * Determines a possible move in a random direction.
@@ -43,7 +66,7 @@ public abstract class Ghost extends NPC {
 	 * @return A direction in which the ghost can move, or <code>null</code> if
 	 *         the ghost is shut in by inaccessible squares.
 	 */
-	protected Direction randomMove() {
+	public Direction randomMove() {
 		Square square = getSquare();
 		List<Direction> directions = new ArrayList<>();
 		for (Direction d : Direction.values()) {

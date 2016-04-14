@@ -1,12 +1,9 @@
 package nl.tudelft.jpacman.npc.ghost;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.board.Square;
-import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.sprite.Sprite;
 
 /**
@@ -68,38 +65,8 @@ public class Blinky extends Ghost {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * <p>
-	 * When the ghosts are not patrolling in their home corners (Blinky:
-	 * top-right, Pinky: top-left, Inky: bottom-right, Clyde: bottom-left),
-	 * Blinky will attempt to shorten the distance between Pac-Man and himself.
-	 * If he has to choose between shortening the horizontal or vertical
-	 * distance, he will choose to shorten whichever is greatest. For example,
-	 * if Pac-Man is four grid spaces to the left, and seven grid spaces above
-	 * Blinky, he'll try to move up towards Pac-Man before he moves to the left.
-	 * </p>
-	 */
 	@Override
 	public Direction nextMove() {
-		// TODO Blinky should patrol his corner every once in a while
-		// TODO Implement his actual behaviour instead of simply chasing.
-		Square target = Navigation.findNearest(Player.class, getSquare())
-				.getSquare();
-
-		if (target == null) {
-			Direction d = randomMove();
-			return d;
-		}
-		
-		List<Direction> path = Navigation.shortestPath(getSquare(), target,
-				this);
-		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
-		}
-		Direction d = randomMove();
-		return d;
+		return this.strategy.move(this);
 	}
 }

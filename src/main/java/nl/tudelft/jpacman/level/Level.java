@@ -14,6 +14,8 @@ import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.strategy.Strategy;
 
 /**
  * A level of Pac-Man. A level consists of the board with the players and the
@@ -44,6 +46,11 @@ public class Level {
 	 */
 	private final Map<NPC, ScheduledExecutorService> npcs;
 
+	/**
+	 * The possible strategies used by ghosts during the game.
+	 */
+	private final Map<String, Strategy> strategies;
+	
 	/**
 	 * <code>true</code> iff this level is currently in progress, i.e. players
 	 * and NPCs can move.
@@ -87,7 +94,7 @@ public class Level {
 	 * @param collisionMap
 	 *            The collection of collisions that should be handled.
 	 */
-	public Level(Board b, List<NPC> ghosts, List<Square> startPositions,
+	public Level(Board b, List<NPC> ghosts, Map<String, Strategy> strategies, List<Square> startPositions,
 			CollisionMap collisionMap) {
 		assert b != null;
 		assert ghosts != null;
@@ -99,6 +106,7 @@ public class Level {
 		for (NPC g : ghosts) {
 			npcs.put(g, null);
 		}
+		this.strategies = strategies;
 		this.startSquares = startPositions;
 		this.startSquareIndex = 0;
 		this.players = new ArrayList<>();
@@ -322,7 +330,22 @@ public class Level {
 		/**
 		 * The NPC to move.
 		 */
-		private final NPC npc;
+		private final Ghost npc;
+		
+		/**
+		 * Timer determine the ghost's strategy. 
+		 */
+		private long ref;
+		
+		/**
+		 * Counter determine the ghost's strategy with the help of the Timer.
+		 */
+		private int counter;
+		
+		/**
+		 * Determine when ghost have to change strategy.
+		 */
+		private int limit;
 
 		/**
 		 * Creates a new task.
@@ -334,11 +357,90 @@ public class Level {
 		 */
 		private NpcMoveTask(ScheduledExecutorService s, NPC n) {
 			this.service = s;
-			this.npc = n;
+			this.npc = (Ghost) n;
+			this.npc.setStrategy(strategies.get("scatter"));
+			this.ref = System.currentTimeMillis();
+			this.counter = 0;
+			this.limit = 7000;;
 		}
 
+		/**
+		 * We can imagine several level which will be created by the LevelFactory but every level would have different implementation for the ghost's
+		 * strategy. 
+		 * For example, the first level said that ghosts are always in the chase strategy. The second level said that every 10 seconds ghosts change their 
+		 * strategy...
+		 */
 		@Override
 		public void run() {
+			getStrategy();
+			getMove();
+		}
+		
+		/**
+		 * Determine the ghost's strategy according to the number of strategy changes made. If there are more than 6 changes, the strategy will be "chase"
+		 * until the end.
+		 */
+		public void getStrategy() {
+			if(counter < 7) {
+				determineStrategy();
+			} else {
+				setStrategy("chase");
+			}
+		}
+		
+		/**
+		 * Determine the ghost's strategy according if the counter is even or odd. 
+		 * Simply, first the strategy is "scatter", then "chase", then "scatter" ,...
+		 */
+		public void determineStrategy() {
+			if(counter % 2 == 0) { // Strategy scatter
+				setToStrategyChase();
+			} else { // Strategy chase
+				setToStrategyScatter();
+			}
+		}
+		
+		/**
+		 * Change the actual strategy to the "chase" strategy
+		 */
+		public void setToStrategyChase() {
+			if(!npc.isHome()) {
+				ref = System.currentTimeMillis();
+			} else if(System.currentTimeMillis() - ref >= limit) {
+				setStrategy("chase");
+				ref = System.currentTimeMillis();
+				limit = 20000;
+			}
+		}
+		
+		/**
+		 * Change the actual strategy to the "scatter" strategy
+		 */
+		public void setToStrategyScatter() {
+			if(System.currentTimeMillis() - ref >= limit) {
+				setStrategy("scatter");
+				if(counter < 4) {
+					limit = 7000;
+				} else {
+					limit = 5000;
+				}
+			}
+		}
+		
+		/**
+		 * Change the strategy
+		 * @param the new strategy 
+		 */
+		public void setStrategy(String strategy) {
+			npc.setStrategy(strategies.get(strategy));
+			npc.setIsHome(false);
+			counter++;
+		}
+		
+		/**
+		 * Get the ghost's move
+		 */
+		public void getMove() {
 			Direction nextMove = npc.nextMove();
 			if (nextMove != null) {
 				move(npc, nextMove);

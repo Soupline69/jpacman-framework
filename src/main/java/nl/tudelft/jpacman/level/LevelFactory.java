@@ -10,6 +10,7 @@ import nl.tudelft.jpacman.npc.NPC;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.GhostColor;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
+import nl.tudelft.jpacman.npc.ghost.strategy.StrategyFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.sprite.Sprite;
 
@@ -45,6 +46,11 @@ public class LevelFactory {
 	 * The factory providing ghosts.
 	 */
 	private final GhostFactory ghostFact;
+	
+	/**
+	 * The factory providing strategies.
+	 */
+	private final StrategyFactory strategyFact;
 
 	/**
 	 * Creates a new level factory.
@@ -54,10 +60,11 @@ public class LevelFactory {
 	 * @param ghostFactory
 	 *            The factory providing ghosts.
 	 */
-	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory) {
+	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory, StrategyFactory strategyFactory) {
 		this.sprites = spriteStore;
 		this.ghostIndex = -1;
 		this.ghostFact = ghostFactory;
+		this.strategyFact = strategyFactory;
 	}
 
 	/**
@@ -76,8 +83,8 @@ public class LevelFactory {
 
 		// We'll adopt the simple collision map for now.
 		CollisionMap collisionMap = new PlayerCollisions();
-		
-		return new Level(board, ghosts, startPositions, collisionMap);
+		strategyFact.attach(board);
+		return new Level(board, ghosts, strategyFact.getStrategies(), startPositions, collisionMap);
 	}
 
 	/**

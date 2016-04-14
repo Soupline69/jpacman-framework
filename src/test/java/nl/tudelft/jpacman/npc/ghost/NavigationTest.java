@@ -45,7 +45,7 @@ public class NavigationTest {
 	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
-				sprites)), new BoardFactory(sprites));
+				sprites), null), new BoardFactory(sprites));
 	}
 
 	/**
