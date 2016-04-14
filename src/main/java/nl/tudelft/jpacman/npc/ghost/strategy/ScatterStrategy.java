@@ -1,12 +1,13 @@
 package nl.tudelft.jpacman.npc.ghost.strategy;
 
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.Navigation;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.npc.ghost.Ghost;
-import nl.tudelft.jpacman.npc.ghost.Navigation;
 
 /**
  * Class determine how a ghost move when it has this strategy.
@@ -14,6 +15,10 @@ import nl.tudelft.jpacman.npc.ghost.Navigation;
  *
  */
 public class ScatterStrategy extends Strategy {
+	
+	public ScatterStrategy() {
+		
+	}
 
 	/**
 	 * Define the next move for the ghost according the instance of this ghost
@@ -21,7 +26,7 @@ public class ScatterStrategy extends Strategy {
 	@Override
 	public Direction move(Ghost ghost) {
 		switch(ghost.getClass().getSimpleName()) {
-			case "Blinky" : return blinkyMove(ghost); 
+			case "Blinky" : return blinkyMove(ghost);
 			case "Pinky" : return pinkyMove(ghost);
 			case "Clyde" : return clydeMove(ghost);
 			case "Inky" : return inkyMove(ghost);
@@ -93,12 +98,12 @@ public class ScatterStrategy extends Strategy {
 	 * @param direction that ghost has to take when it arrives at home for have a good next move
 	 * @return the next move for going home
 	 */
+	@SuppressWarnings("UnnecessaryLocalVariable")
 	private Direction goHome(Ghost ghost, int x, int y, Direction direction) {
 		isAtHome(ghost, x, y, direction);
 		List<Direction> path = Navigation.shortestPath(ghost.getSquare(), board.squareAt(x, y), ghost); 
 		if (path != null && !path.isEmpty()) {
-			Direction d = path.get(0);
-			return d;
+			return path.get(0);
 		}
 		return null; // We can give a direction but we have to do another switch to know what ghost'instance is
 	}
@@ -188,7 +193,7 @@ public class ScatterStrategy extends Strategy {
 	}
 	
 	private Direction getDirectionRight(Ghost ghost) {
-		Map<Direction, Direction> right = new EnumMap<Direction, Direction>(Direction.class);
+		Map<Direction, Direction> right = new EnumMap<>(Direction.class);
 		{
 			right.put(Direction.NORTH, Direction.EAST);
 			right.put(Direction.SOUTH, Direction.WEST);
@@ -199,7 +204,7 @@ public class ScatterStrategy extends Strategy {
 	}
 	
 	private Direction getDirectionLeft(Ghost ghost) {
-		Map<Direction, Direction> left = new EnumMap<Direction, Direction>(Direction.class);
+		Map<Direction, Direction> left = new EnumMap<>(Direction.class);
 		{
 			left.put(Direction.NORTH, Direction.WEST);
 			left.put(Direction.SOUTH, Direction.EAST);

@@ -38,8 +38,9 @@ public final class Navigation {
 	 *         such path could be found. When the destination is the current
 	 *         square, an empty list is returned.
 	 */
+	@SuppressWarnings("UnnecessaryLocalVariable")
 	public static List<Direction> shortestPath(Square from, Square to,
-			Unit traveller) {
+											   Unit traveller) {
 		if (from == to) {
 			return new ArrayList<>();
 		}
@@ -51,8 +52,7 @@ public final class Navigation {
 			Node n = targets.remove(0);
 			Square s = n.getSquare();
 			if (s == to) {
-				List<Direction> path = n.getPath();
-				return path;
+				return n.getPath();
 			}
 			visited.add(s);
 			addNewTargets(traveller, targets, visited, n, s);

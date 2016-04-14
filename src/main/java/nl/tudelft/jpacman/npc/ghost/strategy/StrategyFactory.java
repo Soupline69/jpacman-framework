@@ -11,10 +11,10 @@ import nl.tudelft.jpacman.board.Board;
  *
  */
 public class StrategyFactory {
-	private Map<String, Strategy> strategies;
+	private final Map<String, Strategy> strategies;
 	
 	public StrategyFactory() {
-		this.strategies = new HashMap<String, Strategy>();
+		this.strategies = new HashMap<>();
 		initStrategies();
 	}
 	

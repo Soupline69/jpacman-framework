@@ -26,6 +26,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	/**
 	 * Creates a new, empty collision map.
 	 */
+	@SuppressWarnings("Convert2Diamond")
 	public CollisionInteractionMap() {
 		this.handlers = new HashMap<
 				Class<? extends Unit>,
@@ -74,6 +75,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */
+	@SuppressWarnings("Convert2Diamond")
 	public <C1 extends Unit, C2 extends Unit> void onCollision(
 			Class<C1> collider, Class<C2> collidee, boolean symetric,
 			CollisionHandler<C1, C2> handler) {
@@ -94,8 +96,9 @@ public class CollisionInteractionMap implements CollisionMap {
 	 * @param handler
 	 *            The handler that handles the collision.
 	 */
+	@SuppressWarnings("Convert2Diamond")
 	private void addHandler(Class<? extends Unit> collider,
-			Class<? extends Unit> collidee, CollisionHandler<?, ?> handler) {
+							Class<? extends Unit> collidee, CollisionHandler<?, ?> handler) {
 		if (!handlers.containsKey(collider)) {
 			handlers.put(
 					collider,
@@ -177,7 +180,7 @@ public class CollisionInteractionMap implements CollisionMap {
 	 *            for.
 	 * @return A list of all classes and interfaces the class inherits.
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "Convert2Diamond"})
 	private List<Class<? extends Unit>> getInheritance(
 			Class<? extends Unit> clazz) {
 		List<Class<? extends Unit>> found = new ArrayList<Class<? extends Unit>>();

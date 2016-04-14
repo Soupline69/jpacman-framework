@@ -361,7 +361,7 @@ public class Level {
 			this.npc.setStrategy(strategies.get("scatter"));
 			this.ref = System.currentTimeMillis();
 			this.counter = 0;
-			this.limit = 7000;;
+			this.limit = 7000;
 		}
 
 		/**

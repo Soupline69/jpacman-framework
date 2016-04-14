@@ -1,9 +1,5 @@
 package nl.tudelft.jpacman.npc.ghost.strategy;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
-
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
@@ -11,12 +7,19 @@ import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.Navigation;
 
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Class determine how a ghost move when it has this strategy
  * @author Mikis
  *
  */
 public class ChaseStrategy extends Strategy {
+	public ChaseStrategy() {
+		
+	}
 
 	/**
 	 * Define the next move for the ghost according the instance of this ghost
@@ -42,10 +45,6 @@ public class ChaseStrategy extends Strategy {
 	 */
 	private Direction blinkyMove(Ghost blinky) {
 		Square target = Navigation.findNearest(Player.class, blinky.getSquare()).getSquare();
-		
-		if (target == null) {
-			return blinky.randomMove();
-		}
 
 		List<Direction> path = Navigation.shortestPath(blinky.getSquare(), target, blinky); 
 		if (path != null && !path.isEmpty()) {
@@ -95,7 +94,7 @@ public class ChaseStrategy extends Strategy {
 	 * @return the next move for clyde
 	 */
 	private Direction clydeMove(Ghost clyde) {
-		int squaresAhead = 8;
+		final int squaresAhead = 8;
 		
 		Square target = Navigation.findNearest(Player.class, clyde.getSquare()).getSquare();
 		if (target == null) {
@@ -106,8 +105,7 @@ public class ChaseStrategy extends Strategy {
 		if (path != null && !path.isEmpty()) {
 			Direction d = path.get(0);
 			if (path.size() <= squaresAhead) {
-				Direction oppositeDir = getOpposites(d);
-				return oppositeDir;
+				return getOpposites(d);
 			}
 			return d;
 		}
@@ -150,7 +148,7 @@ public class ChaseStrategy extends Strategy {
 	 * @return the opposite direction 
 	 */
 	private Direction getOpposites(Direction direction) {
-		Map<Direction, Direction> opposites = new EnumMap<Direction, Direction>(Direction.class);
+		Map<Direction, Direction> opposites = new EnumMap<>(Direction.class);
 		{
 			opposites.put(Direction.NORTH, Direction.SOUTH);
 			opposites.put(Direction.SOUTH, Direction.NORTH);

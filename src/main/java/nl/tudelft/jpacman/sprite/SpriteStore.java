@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
  * 
  * @author Jeroen Roosen 
  */
+@SuppressWarnings("Convert2Diamond")
 public class SpriteStore {
 	
 	/**

@@ -173,8 +173,7 @@ public class Launcher {
 		if (players.isEmpty()) {
 			throw new IllegalArgumentException("Game has 0 players.");
 		}
-		final Player p1 = players.get(0);
-		return p1;
+		return players.get(0);
 	}
 
 	/**
