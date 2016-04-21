@@ -45,7 +45,7 @@ public class NavigationTest {
 	public void setUp() {
 		PacManSprites sprites = new PacManSprites();
 		parser = new MapParser(new LevelFactory(sprites, new GhostFactory(
-				sprites), null), new BoardFactory(sprites));
+				sprites)), new BoardFactory(sprites));
 	}
 
 	/**
@@ -102,6 +102,7 @@ public class NavigationTest {
 		Square s2 = b.squareAt(2, 1);
 		List<Direction> path = Navigation
 				.shortestPath(s1, s2, mock(Unit.class));
+		System.out.println(path.size());
 		assertArrayEquals(new Direction[] { Direction.EAST },
 				path.toArray(new Direction[] {}));
 	}

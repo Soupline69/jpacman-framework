@@ -46,11 +46,6 @@ public class LevelFactory {
 	 * The factory providing ghosts.
 	 */
 	private final GhostFactory ghostFact;
-	
-	/**
-	 * The factory providing strategies.
-	 */
-	private final StrategyFactory strategyFact;
 
 	/**
 	 * Creates a new level factory.
@@ -60,11 +55,10 @@ public class LevelFactory {
 	 * @param ghostFactory
 	 *            The factory providing ghosts.
 	 */
-	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory, StrategyFactory strategyFactory) {
+	public LevelFactory(PacManSprites spriteStore, GhostFactory ghostFactory) {
 		this.sprites = spriteStore;
 		this.ghostIndex = -1;
 		this.ghostFact = ghostFactory;
-		this.strategyFact = strategyFactory;
 	}
 
 	/**
@@ -78,12 +72,11 @@ public class LevelFactory {
 	 *            A list of squares from which players may start the game.
 	 * @return A new level for the board.
 	 */
-	public Level createLevel(Board board, List<NPC> ghosts,
-			List<Square> startPositions) {
-
+	public Level createLevel(Board board, List<NPC> ghosts, List<Square> startPositions) {
 		// We'll adopt the simple collision map for now.
 		CollisionMap collisionMap = new PlayerCollisions();
-		strategyFact.attach(board);
+		
+		StrategyFactory strategyFact = new StrategyFactory(board);
 		return new Level(board, ghosts, strategyFact.getStrategies(), startPositions, collisionMap);
 	}
 

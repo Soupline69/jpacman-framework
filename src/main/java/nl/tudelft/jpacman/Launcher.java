@@ -15,7 +15,6 @@ import nl.tudelft.jpacman.level.MapParser;
 import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.level.PlayerFactory;
 import nl.tudelft.jpacman.npc.ghost.GhostFactory;
-import nl.tudelft.jpacman.npc.ghost.strategy.StrategyFactory;
 import nl.tudelft.jpacman.sprite.PacManSprites;
 import nl.tudelft.jpacman.ui.Action;
 import nl.tudelft.jpacman.ui.PacManUI;
@@ -96,7 +95,7 @@ public class Launcher {
 	 *         and the ghosts from {@link #getGhostFactory()}.
 	 */
 	protected LevelFactory getLevelFactory() {
-		return new LevelFactory(getSpriteStore(), getGhostFactory(), getStrategyFactory());
+		return new LevelFactory(getSpriteStore(), getGhostFactory());
 	}
 
 	/**
@@ -110,9 +109,9 @@ public class Launcher {
 	 * 
 	 * @return A new factory 
 	 */
-	protected StrategyFactory getStrategyFactory() {
+/*	protected StrategyFactory getStrategyFactory() {
 		return new StrategyFactory();
-	}
+	}*/
 
 	/**
 	 * @return A new factory using the players from {@link #getPlayerFactory()}.

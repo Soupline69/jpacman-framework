@@ -6,9 +6,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
+import nl.tudelft.jpacman.npc.ghost.strategy.ScatterStrategy;
+import nl.tudelft.jpacman.npc.ghost.strategy.Strategy;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +37,9 @@ public class LevelTest {
 	/**
 	 * An NPC on this level.
 	 */
-	private final NPC ghost = mock(NPC.class);
+	private final NPC ghost = mock(Ghost.class);
+	
+	private Map<String,Strategy> strategy = new HashMap<>();
 
 	/**
 	 * Starting position 1.
@@ -59,7 +68,8 @@ public class LevelTest {
 	@Before
 	public void setUp() {
 		final long defaultInterval = 100L;
-		level = new Level(board, Lists.newArrayList(ghost), null, Lists.newArrayList(
+		strategy.put("scatter", mock(ScatterStrategy.class));
+		level = new Level(board, Lists.newArrayList(ghost), strategy, Lists.newArrayList(
 				square1, square2), collisions);
 		when(ghost.getInterval()).thenReturn(defaultInterval);
 	}
