@@ -15,13 +15,12 @@ public class StrategyFactory {
 	
 	public StrategyFactory(Board board) {
 		this.strategies = new HashMap<>();
-		initStrategies();
-		attach(board);
+		initStrategies(board);
 	}
 	
-	public void initStrategies() {
-		Strategy chase = new ChaseStrategy();
-		Strategy scatter = new ScatterStrategy();
+	public void initStrategies(Board board) {
+		Strategy chase = new ChaseStrategy(board);
+		Strategy scatter = new ScatterStrategy(board);
 		strategies.put("chase", chase);
 		strategies.put("scatter", scatter);
 	}
@@ -30,9 +29,4 @@ public class StrategyFactory {
 		return strategies;
 	}
 	
-	public void attach(Board board) {
-		for(Strategy s : strategies.values()) {
-			s.attach(board);
-		}
-	}
 }

@@ -17,7 +17,7 @@ public abstract class Strategy {
 	 * if a square is accesible to a ghost.
 	 * @param board
 	 */
-	public void attach(Board board) {
+	public Strategy(Board board) {
 		this.board = board;
 	}
 	

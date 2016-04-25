@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.npc.ghost.strategy;
 
+import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.board.Unit;
@@ -17,8 +18,8 @@ import java.util.Map;
  *
  */
 public class ChaseStrategy extends Strategy {
-	public ChaseStrategy() {
-		
+	public ChaseStrategy(Board board) {
+		super(board);
 	}
 
 	/**

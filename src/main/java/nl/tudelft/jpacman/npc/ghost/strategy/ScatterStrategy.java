@@ -1,5 +1,6 @@
 package nl.tudelft.jpacman.npc.ghost.strategy;
 
+import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import nl.tudelft.jpacman.npc.ghost.Navigation;
@@ -16,8 +17,8 @@ import java.util.Map;
  */
 public class ScatterStrategy extends Strategy {
 	
-	public ScatterStrategy() {
-		
+	public ScatterStrategy(Board board) {
+		super(board);
 	}
 
 	/**
@@ -98,7 +99,6 @@ public class ScatterStrategy extends Strategy {
 	 * @param direction that ghost has to take when it arrives at home for have a good next move
 	 * @return the next move for going home
 	 */
-	@SuppressWarnings("UnnecessaryLocalVariable")
 	private Direction goHome(Ghost ghost, int x, int y, Direction direction) {
 		isAtHome(ghost, x, y, direction);
 		List<Direction> path = Navigation.shortestPath(ghost.getSquare(), board.squareAt(x, y), ghost); 
