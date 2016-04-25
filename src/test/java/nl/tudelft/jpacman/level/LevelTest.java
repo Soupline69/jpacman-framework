@@ -68,7 +68,6 @@ public class LevelTest {
 	@Before
 	public void setUp() {
 		final long defaultInterval = 100L;
-		strategy.put("scatter", mock(ScatterStrategy.class));
 		level = new Level(board, Lists.newArrayList(ghost), strategy, Lists.newArrayList(
 				square1, square2), collisions);
 		when(ghost.getInterval()).thenReturn(defaultInterval);

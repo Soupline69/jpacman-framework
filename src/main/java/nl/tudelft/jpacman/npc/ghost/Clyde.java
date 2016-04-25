@@ -65,6 +65,9 @@ public class Clyde extends Ghost {
 
 	@Override
 	public Direction nextMove() {
-		return this.strategy.move(this);
+		if(this.strategy != null)
+			return this.strategy.move(this);
+		else 
+			return randomMove();
 	}
 }
