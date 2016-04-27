@@ -143,19 +143,28 @@ public class ScatterStrategy extends Strategy {
 	 * @return the next move for inky (the right way or continue to the actual direction or another direction, if there is an exception)
 	 */
 	private Direction moveHomeInky(Ghost inky) {
-		List<Direction> possibilities = getPossibilities(inky);
+		Direction direction = moveHomeBottom(inky, Direction.EAST);
+		if(direction != null) {
+			return direction;
+		}
+
+		return getDirectionRight(inky);
+	}
+
+	private Direction moveHomeBottom(Ghost ghost, Direction direction) {
+		List<Direction> possibilities = getPossibilities(ghost);
 		if(possibilities.size() <= 2) {
-			if(inky.getDirection() == Direction.EAST && possibilities.contains(Direction.NORTH)) {
+			if(ghost.getDirection() == direction && possibilities.contains(Direction.NORTH)) {
 				return Direction.NORTH;
-			} else if(inky.getDirection() == Direction.SOUTH && possibilities.contains(Direction.EAST)) {
-				return Direction.EAST;
+			} else if(ghost.getDirection() == Direction.SOUTH && possibilities.contains(direction)) {
+				return direction;
 			}
 		} else {
-			if(inky.getDirection() == Direction.EAST && possibilities.contains(Direction.EAST)) {
-				return Direction.EAST;
+			if(ghost.getDirection() == direction && possibilities.contains(direction)) {
+				return direction;
 			}
 		}
-		return getDirectionRight(inky);
+		return null;
 	}
 	
 	/**
@@ -163,18 +172,11 @@ public class ScatterStrategy extends Strategy {
 	 * @return the next move for Clyde (the left way or continue to the actual direction or another direction, if there is an exception)
 	 */
 	private Direction moveHomeClyde(Ghost clyde) {
-		List<Direction> possibilities = getPossibilities(clyde);
-		if(possibilities.size() <= 2) {
-			if(clyde.getDirection() == Direction.WEST && possibilities.contains(Direction.NORTH)) {
-				return Direction.NORTH;
-			} else if(clyde.getDirection() == Direction.SOUTH && possibilities.contains(Direction.WEST)) {
-				return Direction.WEST;
-			}
-		} else {
-			if(clyde.getDirection() == Direction.WEST && possibilities.contains(Direction.WEST)) {
-				return Direction.WEST;
-			}
+		Direction direction = moveHomeBottom(clyde, Direction.WEST);
+		if(direction != null) {
+			return direction;
 		}
+
 		return getDirectionLeft(clyde);
 	}
 	
