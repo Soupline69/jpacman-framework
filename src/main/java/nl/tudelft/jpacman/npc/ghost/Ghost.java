@@ -80,4 +80,12 @@ public abstract class Ghost extends NPC {
 		int i = new Random().nextInt(directions.size());
 		return directions.get(i);
 	}
+	
+	@Override
+	public Direction nextMove() {
+		if(this.strategy != null)
+			return this.strategy.move(this);
+		else 
+			return randomMove();
+	}
 }

@@ -47,12 +47,16 @@ public class ChaseStrategy extends Strategy {
 	private Direction blinkyMove(Ghost blinky) {
 		Square target = Navigation.findNearest(Player.class, blinky.getSquare()).getSquare();
 
-		List<Direction> path = Navigation.shortestPath(blinky.getSquare(), target, blinky); 
+		return shortestPath(blinky, target);
+	}
+	
+	private Direction shortestPath(Ghost ghost, Square target) {
+		List<Direction> path = Navigation.shortestPath(ghost.getSquare(), target, ghost);
 		if (path != null && !path.isEmpty()) {
 			return path.get(0);
 		}
-		
-		return blinky.randomMove();
+
+		return ghost.randomMove();
 	}
 	
 	/**
@@ -64,25 +68,24 @@ public class ChaseStrategy extends Strategy {
 	 * @param pinky
 	 * @return the next move for pinky
 	 */
-	private Direction pinkyMove(Ghost pinky) {
-		int squaresAhead = 4;
-		
+	private Direction pinkyMove(Ghost pinky) {		
 		Unit player = Navigation.findNearest(Player.class, pinky.getSquare());
 		if (player == null) {
 			return pinky.randomMove();
 		}
 
 		Direction targetDirection = player.getDirection();
+		
+		return directionToGo(pinky, targetDirection, player, 4);
+	}
+	
+	public Direction directionToGo(Ghost ghost, Direction targetDirection, Unit player, int squaresAhead) {
 		Square destination = player.getSquare();
 		for (int i = 0; i < squaresAhead; i++) {
 			destination = destination.getSquareAt(targetDirection);
 		}
 
-		List<Direction> path = Navigation.shortestPath(pinky.getSquare(), destination, pinky);
-		if (path != null && !path.isEmpty()) {
-			return path.get(0);
-		}
-		return pinky.randomMove();
+		return shortestPath(ghost, destination);
 	}
 	
 	/**
@@ -122,25 +125,15 @@ public class ChaseStrategy extends Strategy {
 	 * @param inky
 	 * @return the next move for inky
 	 */
-	private Direction inkyMove(Ghost inky) {
-		int squaresAhead = 4;
-		
+	private Direction inkyMove(Ghost inky) {		
 		Unit player = Navigation.findNearest(Player.class, inky.getSquare());
 		if (player == null) {
 			return inky.randomMove();
 		}
 
 		Direction targetDirection = getOpposites(player.getDirection());
-		Square destination = player.getSquare();
-		for (int i = 0; i < squaresAhead; i++) {
-			destination = destination.getSquareAt(targetDirection);
-		}
-
-		List<Direction> path = Navigation.shortestPath(inky.getSquare(), destination, inky);
-		if (path != null && !path.isEmpty()) {
-			return path.get(0);
-		}
-		return inky.randomMove();
+		
+		return directionToGo(inky, targetDirection, player, 4);
 	}
 	
 	/**

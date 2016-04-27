@@ -71,11 +71,4 @@ public class Pinky extends Ghost {
 		return MOVE_INTERVAL + new Random().nextInt(INTERVAL_VARIATION);
 	}
 
-	@Override
-	public Direction nextMove() {
-		if(this.strategy != null)
-			return this.strategy.move(this);
-		else 
-			return randomMove();
-	}
 }
