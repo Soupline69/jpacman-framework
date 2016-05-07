@@ -21,20 +21,6 @@ public class ChaseStrategy extends Strategy {
 	public ChaseStrategy(Board board) {
 		super(board);
 	}
-
-	/**
-	 * Define the next move for the ghost according the instance of this ghost
-	 */
-	@Override
-	public Direction move(Ghost ghost) {
-		switch(ghost.getClass().getSimpleName()) {
-			case "Blinky" : return blinkyMove(ghost);
-			case "Pinky" : return pinkyMove(ghost);
-			case "Clyde" : return clydeMove(ghost);
-			case "Inky" : return inkyMove(ghost);
-			default : return null;
-		}
-	}
 	
 	/**
 	 * Define the next move for blinky. 
@@ -44,7 +30,8 @@ public class ChaseStrategy extends Strategy {
 	 * @param blinky
 	 * @return the next move for blinky
 	 */
-	private Direction blinkyMove(Ghost blinky) {
+	@Override
+	public Direction blinkyMove(Ghost blinky) {
 		Square target = Navigation.findNearest(Player.class, blinky.getSquare()).getSquare();
 
 		return shortestPath(blinky, target);
@@ -68,7 +55,8 @@ public class ChaseStrategy extends Strategy {
 	 * @param pinky
 	 * @return the next move for pinky
 	 */
-	private Direction pinkyMove(Ghost pinky) {		
+	@Override
+	public Direction pinkyMove(Ghost pinky) {		
 		Unit player = Navigation.findNearest(Player.class, pinky.getSquare());
 		if (player == null) {
 			return pinky.randomMove();
@@ -97,7 +85,8 @@ public class ChaseStrategy extends Strategy {
 	 * @param clyde
 	 * @return the next move for clyde
 	 */
-	private Direction clydeMove(Ghost clyde) {
+	@Override
+	public Direction clydeMove(Ghost clyde) {
 		final int squaresAhead = 8;
 		
 		Square target = Navigation.findNearest(Player.class, clyde.getSquare()).getSquare();
@@ -125,7 +114,8 @@ public class ChaseStrategy extends Strategy {
 	 * @param inky
 	 * @return the next move for inky
 	 */
-	private Direction inkyMove(Ghost inky) {		
+	@Override
+	public Direction inkyMove(Ghost inky) {		
 		Unit player = Navigation.findNearest(Player.class, inky.getSquare());
 		if (player == null) {
 			return inky.randomMove();

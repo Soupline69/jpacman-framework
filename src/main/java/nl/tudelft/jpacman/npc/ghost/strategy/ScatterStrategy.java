@@ -20,20 +20,6 @@ public class ScatterStrategy extends Strategy {
 	public ScatterStrategy(Board board) {
 		super(board);
 	}
-
-	/**
-	 * Define the next move for the ghost according the instance of this ghost
-	 */
-	@Override
-	public Direction move(Ghost ghost) {
-		switch(ghost.getClass().getSimpleName()) {
-			case "Blinky" : return blinkyMove(ghost);
-			case "Pinky" : return pinkyMove(ghost);
-			case "Clyde" : return clydeMove(ghost);
-			case "Inky" : return inkyMove(ghost);
-			default : return null;
-		}
-	}
 	
 	/**
 	 * Define the next move for Blinky.
@@ -42,7 +28,8 @@ public class ScatterStrategy extends Strategy {
 	 * @param blinky
 	 * @return the next move for blinky
 	 */
-	private Direction blinkyMove(Ghost blinky) {
+	@Override
+	public Direction blinkyMove(Ghost blinky) {
 		if(!blinky.isHome()) {
 			return goHome(blinky, board.getWidth() - 2, 1, Direction.EAST);
 		}
@@ -56,7 +43,8 @@ public class ScatterStrategy extends Strategy {
 	 * @param pinky
 	 * @return the next move for pinky
 	 */
-	private Direction pinkyMove(Ghost pinky) {
+	@Override
+	public Direction pinkyMove(Ghost pinky) {
 		if(!pinky.isHome()) {
 			return goHome(pinky, 1, 1, Direction.WEST);
 		}
@@ -70,7 +58,8 @@ public class ScatterStrategy extends Strategy {
 	 * @param Clyde
 	 * @return the next move for Clyde
 	 */
-	private Direction clydeMove(Ghost clyde) {
+	@Override
+	public Direction clydeMove(Ghost clyde) {
 		if(!clyde.isHome()) {
 			return goHome(clyde, 1, board.getHeight() - 2, Direction.SOUTH);
 		}
@@ -84,7 +73,8 @@ public class ScatterStrategy extends Strategy {
 	 * @param Inky
 	 * @return the next move for Inky
 	 */
-	private Direction inkyMove(Ghost inky) {
+	@Override
+	public Direction inkyMove(Ghost inky) {
 		if(!inky.isHome()) {
 			return goHome(inky, board.getWidth() - 2, board.getHeight() - 2, Direction.SOUTH);
 		}

@@ -21,5 +21,19 @@ public abstract class Strategy {
 		this.board = board;
 	}
 	
-	public abstract Direction move(Ghost ghost);
+	public Direction move(Ghost ghost) {
+		switch(ghost.getClass().getSimpleName()) {
+			case "Blinky" : return blinkyMove(ghost);
+			case "Pinky" : return pinkyMove(ghost);
+			case "Clyde" : return clydeMove(ghost);
+			case "Inky" : return inkyMove(ghost);
+			default : return null;
+		}
+	}
+		
+	public abstract Direction blinkyMove(Ghost ghost);
+	public abstract Direction inkyMove(Ghost ghost);
+	public abstract Direction pinkyMove(Ghost ghost);
+	public abstract Direction clydeMove(Ghost ghost);
+
 }
